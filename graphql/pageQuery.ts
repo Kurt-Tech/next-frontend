@@ -6,13 +6,21 @@ export const PAGE_QUERY = gql`
       docs {
         title
         layout {
-          blockType
-          ... on Hero { heading subheading ctaText ctaLink }
-          ... on Features { heading items { title description } }
-          ... on Testimonials { heading quotes { name quote } }
+          __typename
+          ... on Hero {
+            heading
+            subheading
+            ctaText
+            ctaLink
+          }
+          ... on Features {
+            items { title description }
+          }
+          ... on Testimonials {
+            quotes { name quote }
+          }
         }
       }
     }
   }
 `
-
