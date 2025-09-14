@@ -1,5 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
+import { Button } from '@/components/ui/button'
 
 export default function ContactCTA() {
   return (
@@ -10,12 +11,12 @@ export default function ContactCTA() {
           We offer same-day visits and telehealth. Our care team is here to help.
         </p>
         <div className="mt-8 flex items-center justify-center gap-3">
-          <a href="tel:+15551234567" className="inline-flex items-center rounded-lg bg-blue-600 px-5 py-3 text-white shadow hover:bg-blue-700">
-            Call (555) 123-4567
-          </a>
-          <Link href="/contact" className="inline-flex items-center rounded-lg border px-5 py-3 hover:bg-foreground/5">
-            Contact Us
-          </Link>
+          <Button asChild>
+            <a href="tel:+15551234567">Call (555) 123-4567</a>
+          </Button>
+          <Button asChild variant="outline">
+            <Link href="/contact">Contact Us</Link>
+          </Button>
         </div>
         <p className="mt-3 text-xs text-foreground/60">In case of emergency, call 911.</p>
       </div>

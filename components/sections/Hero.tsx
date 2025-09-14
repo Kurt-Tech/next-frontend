@@ -1,5 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
+import { Button } from '@/components/ui/button'
 
 type Props = {
   title: string
@@ -23,19 +24,13 @@ export default function Hero({ title, subtitle, ctaText, ctaHref }: Props) {
         {ctaText && ctaHref && (
           <div className="mt-10">
             {ctaHref.startsWith('/') ? (
-              <Link
-                href={ctaHref}
-                className="inline-flex items-center rounded-lg bg-blue-600 px-5 py-3 text-white shadow hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
-              >
-                {ctaText}
-              </Link>
+              <Button asChild>
+                <Link href={ctaHref}>{ctaText}</Link>
+              </Button>
             ) : (
-              <a
-                href={ctaHref}
-                className="inline-flex items-center rounded-lg bg-blue-600 px-5 py-3 text-white shadow hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
-              >
-                {ctaText}
-              </a>
+              <Button asChild>
+                <a href={ctaHref}>{ctaText}</a>
+              </Button>
             )}
           </div>
         )}
