@@ -2,7 +2,11 @@ import { ApolloClient, InMemoryCache, HttpLink } from '@apollo/client'
 import fetch from 'cross-fetch'
 
 export function createApolloClient() {
-  const uri = process.env.NEXT_PUBLIC_PAYLOAD_GRAPHQL_URL || 'http://localhost:3000/api/graphql'
+  const uri =
+    process.env.NEXT_PUBLIC_PAYLOAD_GRAPHQL_URL ||
+    (process.env.NODE_ENV === 'development'
+      ? 'http://localhost:3000/api/graphql'
+      : '/api/cms/graphql')
 
   return new ApolloClient({
     link: new HttpLink({
@@ -15,4 +19,3 @@ export function createApolloClient() {
     ssrMode: typeof window === 'undefined',
   })
 }
-
