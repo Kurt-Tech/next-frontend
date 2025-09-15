@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client'
 
 export const PAGE_QUERY = gql`
-  query Page($slug: String!) {
-    Pages(where: { slug: { equals: $slug } }) {
+  query Page($slug: String!, $draft: Boolean) {
+    Pages(draft: $draft, where: { slug: { equals: $slug } }) {
       docs {
         title
         layout {
@@ -12,12 +12,24 @@ export const PAGE_QUERY = gql`
             subheading
             ctaText
             ctaLink
+            image { url alt }
           }
           ... on Features {
-            items { title description }
+            items { title description image { url alt } }
           }
           ... on Testimonials {
-            quotes { name quote }
+            quotes { name quote avatar { url alt } }
+          }
+          ... on Callout {
+            heading
+            content
+            ctaText
+            ctaLink
+            image { url alt }
+          }
+          ... on Faq {
+            heading
+            items { question answer }
           }
         }
       }

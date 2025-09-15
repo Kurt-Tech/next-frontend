@@ -1,7 +1,8 @@
 import React from 'react'
+import Image from 'next/image'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
-type Service = { title: string; description: string; icon?: React.ReactNode }
+type Service = { title: string; description: string; icon?: React.ReactNode; image?: { url?: string; alt?: string } }
 
 export default function Services({ services }: { services: Service[] }) {
   return (
@@ -16,6 +17,11 @@ export default function Services({ services }: { services: Service[] }) {
                 <CardTitle>{s.title}</CardTitle>
               </CardHeader>
               <CardContent>
+                {s.image?.url ? (
+                  <div className="relative mb-4 aspect-video w-full overflow-hidden rounded-md">
+                    <Image src={s.image.url} alt={s.image.alt || ''} fill sizes="(min-width: 640px) 33vw, 100vw" className="object-cover" />
+                  </div>
+                ) : null}
                 <p className="text-sm text-muted-foreground leading-6">{s.description}</p>
               </CardContent>
             </Card>

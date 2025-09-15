@@ -1,7 +1,8 @@
 import React from 'react'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
+import Image from 'next/image'
 
-type Quote = { name: string; role?: string; quote: string }
+type Quote = { name: string; role?: string; quote: string; avatar?: { url?: string; alt?: string } }
 
 export default function Testimonials({ quotes }: { quotes: Quote[] }) {
   return (
@@ -14,9 +15,14 @@ export default function Testimonials({ quotes }: { quotes: Quote[] }) {
               <CardContent className="pt-6">
                 <blockquote className="text-sm leading-6 text-muted-foreground">“{q.quote}”</blockquote>
               </CardContent>
-              <CardFooter className="text-sm font-medium">
-                {q.name}
-                {q.role ? <span className="text-muted-foreground"> · {q.role}</span> : null}
+              <CardFooter className="text-sm font-medium gap-3 items-center">
+                {q.avatar?.url ? (
+                  <Image src={q.avatar.url} alt={q.avatar.alt || ''} width={28} height={28} className="rounded-full" />
+                ) : null}
+                <span>
+                  {q.name}
+                  {q.role ? <span className="text-muted-foreground"> · {q.role}</span> : null}
+                </span>
               </CardFooter>
             </Card>
           ))}

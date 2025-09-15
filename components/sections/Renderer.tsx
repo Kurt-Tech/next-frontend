@@ -2,6 +2,8 @@ import React from 'react'
 import Hero from '@/components/sections/Hero'
 import Services from '@/components/sections/Services'
 import Testimonials from '@/components/sections/Testimonials'
+import Callout from '@/components/sections/Callout'
+import FAQ from '@/components/sections/FAQ'
 
 export type Block =
   | ({ __typename: 'Hero' } & {
@@ -9,12 +11,24 @@ export type Block =
       subheading?: string
       ctaText?: string
       ctaLink?: string
+      image?: { url?: string; alt?: string }
     })
   | ({ __typename: 'Features' } & {
-      items?: Array<{ title?: string; description?: string }>
+      items?: Array<{ title?: string; description?: string; image?: { url?: string; alt?: string } }>
     })
   | ({ __typename: 'Testimonials' } & {
       quotes?: Array<{ name?: string; quote?: string; role?: string }>
+    })
+  | ({ __typename: 'Callout' } & {
+      heading: string
+      content?: string
+      ctaText?: string
+      ctaLink?: string
+      image?: { url?: string; alt?: string }
+    })
+  | ({ __typename: 'Faq' } & {
+      heading?: string
+      items?: Array<{ question?: string; answer?: string }>
     })
 
 export default function Renderer({ layout }: { layout: Block[] }) {
@@ -40,10 +54,13 @@ export default function Renderer({ layout }: { layout: Block[] }) {
           case 'Features': {
             type FeaturesBlock = Extract<Block, { __typename: 'Features' }>
             const b = block as FeaturesBlock
-            const services = (b.items ?? []).map((it: { title?: string; description?: string }) => ({
-              title: it?.title ?? '',
-              description: it?.description ?? '',
-            }))
+            const services = (b.items ?? []).map(
+              (it: { title?: string; description?: string; image?: { url?: string; alt?: string } }) => ({
+                title: it?.title ?? '',
+                description: it?.description ?? '',
+                image: it?.image,
+              })
+            )
             return <Services key={i} services={services} />
           }
           case 'Testimonials': {
@@ -55,6 +72,28 @@ export default function Renderer({ layout }: { layout: Block[] }) {
               role: q?.role,
             }))
             return <Testimonials key={i} quotes={quotes} />
+          }
+          case 'Callout': {
+            const b = block as Extract<Block, { __typename: 'Callout' }>
+            if (!b.heading) return null
+            return (
+              <Callout
+                key={i}
+                heading={b.heading}
+                content={b.content}
+                ctaText={b.ctaText}
+                ctaLink={b.ctaLink}
+                image={b.image}
+              />
+            )
+          }
+          case 'Faq': {
+            const b = block as Extract<Block, { __typename: 'Faq' }>
+            const items = (b.items ?? []).map((it) => ({
+              question: it?.question ?? '',
+              answer: it?.answer ?? '',
+            }))
+            return <FAQ key={i} heading={b.heading} items={items} />
           }
           default:
             return null
