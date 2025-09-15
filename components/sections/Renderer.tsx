@@ -14,21 +14,21 @@ export type Block =
       image?: { url?: string; alt?: string }
     })
   | ({ __typename: 'Features' } & {
-      items?: Array<{ title?: string; description?: string; image?: { url?: string; alt?: string } }>
+      featuresItems?: Array<{ title?: string; description?: string; image?: { url?: string; alt?: string } }>
     })
   | ({ __typename: 'Testimonials' } & {
       quotes?: Array<{ name?: string; quote?: string; role?: string }>
     })
   | ({ __typename: 'Callout' } & {
-      heading: string
+      calloutHeading: string
       content?: string
       ctaText?: string
       ctaLink?: string
       image?: { url?: string; alt?: string }
     })
   | ({ __typename: 'Faq' } & {
-      heading?: string
-      items?: Array<{ question?: string; answer?: string }>
+      faqHeading?: string
+      faqItems?: Array<{ question?: string; answer?: string }>
     })
 
 export default function Renderer({ layout }: { layout: Block[] }) {
@@ -54,7 +54,7 @@ export default function Renderer({ layout }: { layout: Block[] }) {
           case 'Features': {
             type FeaturesBlock = Extract<Block, { __typename: 'Features' }>
             const b = block as FeaturesBlock
-            const services = (b.items ?? []).map(
+            const services = (b.featuresItems ?? []).map(
               (it: { title?: string; description?: string; image?: { url?: string; alt?: string } }) => ({
                 title: it?.title ?? '',
                 description: it?.description ?? '',
@@ -75,11 +75,11 @@ export default function Renderer({ layout }: { layout: Block[] }) {
           }
           case 'Callout': {
             const b = block as Extract<Block, { __typename: 'Callout' }>
-            if (!b.heading) return null
+            if (!b.calloutHeading) return null
             return (
               <Callout
                 key={i}
-                heading={b.heading}
+                heading={b.calloutHeading}
                 content={b.content}
                 ctaText={b.ctaText}
                 ctaLink={b.ctaLink}
@@ -89,11 +89,11 @@ export default function Renderer({ layout }: { layout: Block[] }) {
           }
           case 'Faq': {
             const b = block as Extract<Block, { __typename: 'Faq' }>
-            const items = (b.items ?? []).map((it) => ({
+            const items = (b.faqItems ?? []).map((it) => ({
               question: it?.question ?? '',
               answer: it?.answer ?? '',
             }))
-            return <FAQ key={i} heading={b.heading} items={items} />
+            return <FAQ key={i} heading={b.faqHeading} items={items} />
           }
           default:
             return null

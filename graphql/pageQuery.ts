@@ -15,21 +15,21 @@ export const PAGE_QUERY = gql`
             image { url alt }
           }
           ... on Features {
-            items { title description image { url alt } }
+            featuresItems: items { title description image { url alt } }
           }
           ... on Testimonials {
             quotes { name quote avatar { url alt } }
           }
           ... on Callout {
-            heading
+            calloutHeading: heading
             content
             ctaText
             ctaLink
             image { url alt }
           }
           ... on Faq {
-            heading
-            items { question answer }
+            faqHeading: heading
+            faqItems: items { question answer }
           }
         }
       }
