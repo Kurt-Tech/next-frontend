@@ -7,6 +7,16 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'apexmedicalgroup.onrender.com',
       },
+      // Allow public Vercel Blob URLs (bucket subdomains)
+      {
+        protocol: 'https',
+        hostname: '**.public.blob.vercel-storage.com',
+      },
+      // Fallback host used by some Blob URLs
+      {
+        protocol: 'https',
+        hostname: 'blob.vercel-storage.com',
+      },
     ],
   },
   async headers() {

@@ -34,23 +34,41 @@ export type Block =
 export default function Renderer({ layout }: { layout: Block[] }) {
   if (!Array.isArray(layout)) return null
 
-  return (
-    <>
-      {layout.map((block, i) => {
-        switch (block.__typename) {
-          case 'Hero': {
-            const title = block.heading
-            if (typeof title !== 'string' || !title) return null
-            return (
-              <Hero
-                key={i}
-                title={title}
-                subtitle={block.subheading}
-                ctaText={block.ctaText}
-                ctaHref={block.ctaLink}
-              />
-            )
+  const content: React.ReactNode[] = []
+
+  for (let i = 0; i < layout.length; i++) {
+    const block = layout[i]
+    switch (block.__typename) {
+      case 'Hero': {
+        // Group consecutive Hero blocks into a single slider
+        const slides = [] as Array<{
+          title: string
+          subtitle?: string
+          ctaText?: string
+          ctaHref?: string
+          image?: { url?: string; alt?: string }
+        }>
+        let j = i
+        while (j < layout.length && layout[j]?.__typename === 'Hero') {
+          const b = layout[j] as Extract<Block, { __typename: 'Hero' }>
+          if (b.heading) {
+            slides.push({
+              title: b.heading,
+              subtitle: b.subheading,
+              ctaText: b.ctaText,
+              ctaHref: b.ctaLink,
+              image: b.image,
+            })
           }
+          j++
+        }
+        // Move outer loop index
+        i = j - 1
+
+        if (slides.length === 0) break
+        content.push(<Hero key={`heroslider-${i}`} slides={slides} />)
+        break
+      }
           case 'Features': {
             type FeaturesBlock = Extract<Block, { __typename: 'Features' }>
             const b = block as FeaturesBlock
@@ -61,7 +79,8 @@ export default function Renderer({ layout }: { layout: Block[] }) {
                 image: it?.image,
               })
             )
-            return <Services key={i} services={services} />
+            content.push(<Services key={`features-${i}`} services={services} />)
+            break
           }
           case 'Testimonials': {
             type TestimonialsBlock = Extract<Block, { __typename: 'Testimonials' }>
@@ -71,14 +90,15 @@ export default function Renderer({ layout }: { layout: Block[] }) {
               quote: q?.quote ?? '',
               role: q?.role,
             }))
-            return <Testimonials key={i} quotes={quotes} />
+            content.push(<Testimonials key={`testimonials-${i}`} quotes={quotes} />)
+            break
           }
           case 'Callout': {
             const b = block as Extract<Block, { __typename: 'Callout' }>
             if (!b.calloutHeading) return null
-            return (
+            content.push(
               <Callout
-                key={i}
+                key={`callout-${i}`}
                 heading={b.calloutHeading}
                 content={b.content}
                 ctaText={b.ctaText}
@@ -86,6 +106,7 @@ export default function Renderer({ layout }: { layout: Block[] }) {
                 image={b.image}
               />
             )
+            break
           }
           case 'Faq': {
             const b = block as Extract<Block, { __typename: 'Faq' }>
@@ -93,12 +114,13 @@ export default function Renderer({ layout }: { layout: Block[] }) {
               question: it?.question ?? '',
               answer: it?.answer ?? '',
             }))
-            return <FAQ key={i} heading={b.faqHeading} items={items} />
+            content.push(<FAQ key={`faq-${i}`} heading={b.faqHeading} items={items} />)
+            break
           }
           default:
-            return null
-        }
-      })}
-    </>
-  )
+            break
+    }
+  }
+
+  return <>{content}</>
 }
