@@ -21,7 +21,11 @@ export const FOOTER_QUERY = gql`
 export const THEME_QUERY = gql`
   query Theme($draft: Boolean) {
     Theme(draft: $draft) {
-      brand { primaryHex accentHex }
+      brand {
+        primaryHex
+        accentHex
+        logo { url alt }
+      }
       radius
     }
   }
