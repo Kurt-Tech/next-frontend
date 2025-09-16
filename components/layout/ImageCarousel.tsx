@@ -1,6 +1,7 @@
 "use client"
-import React, { useCallback, useEffect, useRef, useState } from 'react'
-import useEmblaCarousel, { type EmblaOptionsType } from 'embla-carousel-react'
+import React, { useCallback, useEffect, useState } from 'react'
+import useEmblaCarousel from 'embla-carousel-react'
+import type { EmblaOptionsType } from 'embla-carousel'
 import Image from 'next/image'
 
 export type CarouselImage = { url: string; alt?: string }
@@ -42,4 +43,5 @@ export default function ImageCarousel({ images, options }: { images: CarouselIma
     </div>
   )
 }
+
 

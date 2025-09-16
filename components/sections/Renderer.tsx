@@ -89,7 +89,7 @@ export default function Renderer({ layout }: { layout: Block[] }) {
               name: q?.name ?? '',
               quote: q?.quote ?? '',
               role: q?.role,
-              avatar: (q as any)?.avatar,
+              avatar: q?.avatar,
             }))
             content.push(<TestimonialSlider key={`testimonials-${i}`} quotes={quotes} />)
             break
@@ -125,3 +125,4 @@ export default function Renderer({ layout }: { layout: Block[] }) {
 
   return <>{content}</>
 }
+
