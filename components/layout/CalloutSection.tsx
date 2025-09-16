@@ -1,8 +1,8 @@
 import React from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-import Link from 'next/link'
 
 type Props = {
   heading: string
@@ -12,7 +12,7 @@ type Props = {
   image?: { url?: string; alt?: string }
 }
 
-export default function Callout({ heading, content, ctaText, ctaLink, image }: Props) {
+export default function CalloutSection({ heading, content, ctaText, ctaLink, image }: Props) {
   return (
     <section className="py-12 sm:py-16">
       <div className="mx-auto max-w-6xl px-6">
@@ -24,11 +24,7 @@ export default function Callout({ heading, content, ctaText, ctaLink, image }: P
               {ctaText && ctaLink && (
                 <div className="mt-6">
                   <Button asChild>
-                    {ctaLink.startsWith('/') ? (
-                      <Link href={ctaLink}>{ctaText}</Link>
-                    ) : (
-                      <a href={ctaLink}>{ctaText}</a>
-                    )}
+                    {ctaLink.startsWith('/') ? <Link href={ctaLink}>{ctaText}</Link> : <a href={ctaLink}>{ctaText}</a>}
                   </Button>
                 </div>
               )}

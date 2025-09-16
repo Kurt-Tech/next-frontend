@@ -3,7 +3,7 @@ import { Card, CardContent } from '@/components/ui/card'
 
 type FAQItem = { question: string; answer: string }
 
-export default function FAQ({ heading, items }: { heading?: string; items: FAQItem[] }) {
+export default function FAQSection({ heading, items }: { heading?: string; items: FAQItem[] }) {
   return (
     <section className="py-16 sm:py-20">
       <div className="mx-auto max-w-6xl px-6">

@@ -1,9 +1,9 @@
 import React from 'react'
-import Hero from '@/components/sections/Hero'
-import Services from '@/components/sections/Services'
-import Testimonials from '@/components/sections/Testimonials'
-import Callout from '@/components/sections/Callout'
-import FAQ from '@/components/sections/FAQ'
+import HeroSection from '@/components/layout/HeroSection'
+import FeatureGrid from '@/components/layout/FeatureGrid'
+import TestimonialSlider from '@/components/layout/TestimonialSlider'
+import CalloutSection from '@/components/layout/CalloutSection'
+import FAQSection from '@/components/layout/FAQSection'
 
 export type Block =
   | ({ __typename: 'Hero' } & {
@@ -17,7 +17,7 @@ export type Block =
       featuresItems?: Array<{ title?: string; description?: string; image?: { url?: string; alt?: string } }>
     })
   | ({ __typename: 'Testimonials' } & {
-      quotes?: Array<{ name?: string; quote?: string; role?: string }>
+      quotes?: Array<{ name?: string; quote?: string; role?: string; avatar?: { url?: string; alt?: string } }>
     })
   | ({ __typename: 'Callout' } & {
       calloutHeading: string
@@ -66,7 +66,7 @@ export default function Renderer({ layout }: { layout: Block[] }) {
         i = j - 1
 
         if (slides.length === 0) break
-        content.push(<Hero key={`heroslider-${i}`} slides={slides} />)
+        content.push(<HeroSection key={`hero-${i}`} slides={slides} />)
         break
       }
           case 'Features': {
@@ -79,25 +79,26 @@ export default function Renderer({ layout }: { layout: Block[] }) {
                 image: it?.image,
               })
             )
-            content.push(<Services key={`features-${i}`} services={services} />)
+            content.push(<FeatureGrid key={`features-${i}`} items={services} />)
             break
           }
           case 'Testimonials': {
             type TestimonialsBlock = Extract<Block, { __typename: 'Testimonials' }>
             const b = block as TestimonialsBlock
-            const quotes = (b.quotes ?? []).map((q: { name?: string; quote?: string; role?: string }) => ({
+            const quotes = (b.quotes ?? []).map((q: { name?: string; quote?: string; role?: string; avatar?: { url?: string; alt?: string } }) => ({
               name: q?.name ?? '',
               quote: q?.quote ?? '',
               role: q?.role,
+              avatar: (q as any)?.avatar,
             }))
-            content.push(<Testimonials key={`testimonials-${i}`} quotes={quotes} />)
+            content.push(<TestimonialSlider key={`testimonials-${i}`} quotes={quotes} />)
             break
           }
           case 'Callout': {
             const b = block as Extract<Block, { __typename: 'Callout' }>
             if (!b.calloutHeading) return null
             content.push(
-              <Callout
+              <CalloutSection
                 key={`callout-${i}`}
                 heading={b.calloutHeading}
                 content={b.content}
@@ -114,7 +115,7 @@ export default function Renderer({ layout }: { layout: Block[] }) {
               question: it?.question ?? '',
               answer: it?.answer ?? '',
             }))
-            content.push(<FAQ key={`faq-${i}`} heading={b.faqHeading} items={items} />)
+            content.push(<FAQSection key={`faq-${i}`} heading={b.faqHeading} items={items} />)
             break
           }
           default:

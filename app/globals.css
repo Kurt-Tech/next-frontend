@@ -1,33 +1,31 @@
 @import "tailwindcss";
 
 :root {
-  /* base */
-  --background: 0 0% 100%;
-  --foreground: 240 10% 3.9%;
+  /* Apex palette */
+  --background: 210 100% 97%;
+  --foreground: 211 60% 12%;
 
-  /* shadcn tokens */
   --card: 0 0% 100%;
-  --card-foreground: 240 10% 3.9%;
+  --card-foreground: 211 60% 12%;
   --popover: 0 0% 100%;
-  --popover-foreground: 240 10% 3.9%;
-  --primary: 221 83% 53%;
+  --popover-foreground: 211 60% 12%;
+  --primary: 203 100% 38%;
   --primary-foreground: 210 40% 98%;
-  --secondary: 240 4.8% 95.9%;
-  --secondary-foreground: 240 5.9% 10%;
-  --muted: 240 4.8% 95.9%;
-  --muted-foreground: 240 3.8% 46.1%;
-  --accent: 240 4.8% 95.9%;
-  --accent-foreground: 240 5.9% 10%;
-  --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 0 0% 98%;
-  --border: 240 5.9% 90%;
-  --input: 240 5.9% 90%;
-  --ring: 221 83% 53%;
-  --radius: 0.5rem;
+  --secondary: 198 100% 92%;
+  --secondary-foreground: 211 50% 20%;
+  --muted: 198 100% 92%;
+  --muted-foreground: 211 35% 35%;
+  --accent: 195 100% 44%;
+  --accent-foreground: 210 40% 98%;
+  --destructive: 2 82% 55%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 202 68% 84%;
+  --input: 202 68% 84%;
+  --ring: 195 100% 44%;
+  --radius: 0.75rem;
 }
 
 @theme inline {
-  /* map HSL tokens to Tailwind colors */
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
   --color-card: hsl(var(--card));
@@ -56,29 +54,47 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 72% 51%;
-    --destructive-foreground: 0 85.7% 97.3%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 217.2 91.2% 59.8%;
+    --background: 214 52% 11%;
+    --foreground: 210 40% 96%;
+    --card: 214 42% 14%;
+    --card-foreground: 210 40% 96%;
+    --popover: 214 42% 14%;
+    --popover-foreground: 210 40% 96%;
+    --primary: 195 100% 50%;
+    --primary-foreground: 215 48% 12%;
+    --secondary: 210 36% 18%;
+    --secondary-foreground: 210 40% 94%;
+    --muted: 210 36% 18%;
+    --muted-foreground: 198 32% 70%;
+    --accent: 203 100% 60%;
+    --accent-foreground: 215 48% 12%;
+    --destructive: 0 74% 58%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 210 38% 25%;
+    --input: 210 38% 25%;
+    --ring: 203 100% 60%;
   }
 }
 
 body {
+  min-height: 100vh;
   background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  background-image: radial-gradient(circle at 10% 10%, hsla(195, 100%, 90%, 0.6), transparent 45%),
+    radial-gradient(circle at 90% 20%, hsla(203, 100%, 80%, 0.45), transparent 50%),
+    linear-gradient(180deg, hsla(210, 100%, 98%, 0.65), hsla(210, 100%, 95%, 0.9));
+  background-attachment: fixed;
+}
+
+a {
+  color: inherit;
+}
+
+a:hover {
+  color: hsl(var(--accent));
+}
+
+::selection {
+  background: hsla(195, 100%, 44%, 0.35);
   color: hsl(var(--foreground));
 }

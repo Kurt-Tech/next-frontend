@@ -20,12 +20,10 @@ export default function ClientPage({ slug, draft = false }: { slug: string; draf
 
   return (
     <div className="font-sans">
-      {page.title && (
-        <div className="mx-auto max-w-6xl px-6 pt-8">
-          <h1 className="sr-only">{page.title}</h1>
-        </div>
-      )}
+      {page.title ? <h1 className="sr-only">{page.title}</h1> : null}
       <Renderer layout={page.layout || []} />
     </div>
   )
 }
+
+
