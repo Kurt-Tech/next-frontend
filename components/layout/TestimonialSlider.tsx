@@ -9,27 +9,36 @@ import Image from 'next/image'
 
 export type Quote = { name: string; role?: string; quote: string; avatar?: { url?: string; alt?: string } }
 
-export default function TestimonialSlider({ quotes }: { quotes: Quote[] }) {
-  if (!quotes?.length) return null
+type Props = {
+  heading?: string
+  quotes: Quote[]
+}
+
+export default function TestimonialSlider({ heading, quotes }: Props) {
+  const sectionHeading = heading === undefined ? 'What Our Patients Say' : heading?.trim()
+  const visibleQuotes = quotes.filter((quote) => Boolean(quote.name && quote.quote))
+
+  if (!visibleQuotes.length) return null
+
   return (
     <section className="py-16 sm:py-20">
       <div className="mx-auto max-w-6xl px-6">
-        <h2 className="text-2xl sm:text-3xl font-semibold">What Our Patients Say</h2>
+        {sectionHeading ? <h2 className="text-2xl font-semibold sm:text-3xl">{sectionHeading}</h2> : null}
         <div className="mt-8">
           <Swiper modules={[Pagination, Autoplay]} pagination={{ clickable: true }} autoplay={{ delay: 5000 }} spaceBetween={16} breakpoints={{ 640: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } }}>
-            {quotes.map((q, i) => (
+            {visibleQuotes.map((q, i) => (
               <SwiperSlide key={i}>
                 <Card>
                   <CardContent className="pt-6">
-                    <blockquote className="text-sm leading-6 text-muted-foreground">“{q.quote}”</blockquote>
+                    <blockquote className="text-sm leading-6 text-muted-foreground">&ldquo;{q.quote}&rdquo;</blockquote>
                   </CardContent>
-                  <CardFooter className="text-sm font-medium gap-3 items-center">
+                  <CardFooter className="items-center gap-3 text-sm font-medium">
                     {q.avatar?.url ? (
                       <Image src={q.avatar.url} alt={q.avatar.alt || ''} width={28} height={28} className="rounded-full" />
                     ) : null}
                     <span>
                       {q.name}
-                      {q.role ? <span className="text-muted-foreground"> ・ {q.role}</span> : null}
+                      {q.role ? <span className="text-muted-foreground"> - {q.role}</span> : null}
                     </span>
                   </CardFooter>
                 </Card>
@@ -41,4 +50,3 @@ export default function TestimonialSlider({ quotes }: { quotes: Quote[] }) {
     </section>
   )
 }
-

@@ -8,17 +8,24 @@ export const PAGE_QUERY = gql`
         layout {
           __typename
           ... on Hero {
-            heading
-            subheading
-            ctaText
-            ctaLink
-            image { url alt }
+            slides {
+              badge
+              heading
+              subheading
+              ctaText
+              ctaLink
+              secondaryCtaText
+              secondaryCtaLink
+              image { url alt }
+            }
           }
           ... on Features {
-            featuresItems: items { title description image { url alt } }
+            heading
+            items { title description image { url alt } }
           }
           ... on Testimonials {
-            quotes { name quote avatar { url alt } }
+            heading
+            quotes { name role quote avatar { url alt } }
           }
           ... on Callout {
             calloutHeading: heading

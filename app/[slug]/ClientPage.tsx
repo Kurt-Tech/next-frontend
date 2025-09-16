@@ -12,7 +12,7 @@ type PageQueryResult = {
 export default function ClientPage({ slug, draft = false }: { slug: string; draft?: boolean }) {
   const { data, loading, error } = useQuery<PageQueryResult>(PAGE_QUERY, { variables: { slug, draft } })
 
-  if (loading) return <div style={{ padding: '1rem' }}>Loading…</div>
+  if (loading) return <div style={{ padding: '1rem' }}>Loading...</div>
   if (error) return <div style={{ padding: '1rem', color: 'crimson' }}>Error: {error.message}</div>
 
   const page = data?.Pages?.docs?.[0]
@@ -25,5 +25,7 @@ export default function ClientPage({ slug, draft = false }: { slug: string; draf
     </div>
   )
 }
+
+
 
 

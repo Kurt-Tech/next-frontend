@@ -5,7 +5,7 @@ import Image from 'next/image'
 
 export type CarouselImage = { url: string; alt?: string }
 
-export default function ImageCarousel({ images, options }: { images: CarouselImage[]; options?: EmblaOptionsType }) {
+export default function ImageCarousel({ images, options }: { images: CarouselImage[]; options?: Parameters<typeof useEmblaCarousel>[0] }) {
   const [emblaRef, emblaApi] = useEmblaCarousel(options)
   const [selected, setSelected] = useState(0)
   const onSelect = useCallback(() => {
@@ -42,6 +42,7 @@ export default function ImageCarousel({ images, options }: { images: CarouselIma
     </div>
   )
 }
+
 
 
 
