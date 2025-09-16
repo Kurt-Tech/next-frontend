@@ -8,16 +8,6 @@ export const HEADER_QUERY = gql`
     }
   }
 `
-
-export const FOOTER_QUERY = gql`
-  query Footer($draft: Boolean) {
-    Footer(draft: $draft) {
-      links { label href external }
-      copyright
-    }
-  }
-`
-
 export const THEME_QUERY = gql`
   query Theme($draft: Boolean) {
     Theme(draft: $draft) {
@@ -30,3 +20,4 @@ export const THEME_QUERY = gql`
     }
   }
 `
+
